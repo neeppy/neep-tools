@@ -1,0 +1,8 @@
+services:
+  nexi-toolkit:
+    image: ghcr.io/neeppy/neep-tools:latest
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    environment:
+      ORIGIN: http://localhost:3000

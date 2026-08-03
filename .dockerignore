@@ -1,0 +1,12 @@
+node_modules
+.svelte-kit
+build
+.git
+.github
+.vscode
+.claude
+*.md
+.env
+.env.*
+!.env.example
+package-lock.json

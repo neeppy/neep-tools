@@ -1,42 +1,59 @@
-# sv
+# nexi toolkit
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A self-hostable collection of everyday developer tools (JSON formatting, text diffing, and more to
+come), built with SvelteKit.
 
-## Creating a project
+## Running with Docker
 
-If you're seeing this, you've probably already done this step. Congrats!
-
-```sh
-# create a new project
-npx sv create my-app
-```
-
-To recreate this project with the same configuration:
+Pull the published image and run it:
 
 ```sh
-# recreate this project
-npx sv@0.17.0 create --template minimal --types ts --add prettier eslint tailwindcss="plugins:none" vitest="usages:unit" --install npm nexi-toolkit
+docker run -d --name nexi-toolkit -p 3000:3000 -e ORIGIN=http://localhost:3000 ghcr.io/neeppy/neep-tools:latest
 ```
+
+Or with Docker Compose:
+
+```sh
+docker compose up -d
+```
+
+The app will be available at `http://localhost:3000`.
+
+### Configuration
+
+| Variable | Default   | Description                                                                                     |
+| -------- | --------- | ----------------------------------------------------------------------------------------------- |
+| `PORT`   | `3000`    | Port the server listens on.                                                                     |
+| `HOST`   | `0.0.0.0` | Address the server binds to.                                                                    |
+| `ORIGIN` | —         | Public URL of the app (e.g. `https://tools.example.com`). Set this when running behind a proxy. |
 
 ## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Install dependencies and start a dev server:
 
 ```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+pnpm install
+pnpm dev --open
 ```
 
 ## Building
 
-To create a production version of your app:
-
 ```sh
-npm run build
+pnpm build
 ```
 
-You can preview the production build with `npm run preview`.
+The production server is a standalone Node app; run it with `node build` (or `pnpm preview` to
+build and preview in one step).
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+## Building the Docker image locally
+
+```sh
+docker build -t nexi-toolkit .
+docker run -d -p 3000:3000 -e ORIGIN=http://localhost:3000 nexi-toolkit
+```
+
+## Publishing
+
+Pushing to `main` builds and publishes `ghcr.io/neeppy/neep-tools:latest`. Pushing a `vX.Y.Z` tag
+also publishes matching semver tags. See
+[`.github/workflows/docker-publish.yml`](.github/workflows/docker-publish.yml).
