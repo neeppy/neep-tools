@@ -51,6 +51,17 @@ button. Input is bound to `$state`, output is a `$derived`/`$derived.by` computa
 re-runs on every keystroke. Follow this pattern for new tools where computation is cheap enough to
 run synchronously.
 
+**Hash generator** (`src/lib/hash.ts` + `src/routes/hash-generator/`) is the async variant of that
+pattern: hashing (bcrypt deliberately, WebAssembly hashing via `hash-wasm` inherently) can't be a
+plain `$derived`, since Svelte's derived values must be synchronous. Instead the page uses `$effect`
+with a `cancelled` flag returned from its cleanup function, so a stale in-flight hash from a
+previous keystroke can't overwrite a newer result. Algorithms are a registry, same shape as
+`tools.ts`: each entry in the `hashAlgorithms` array declares whether it supports a secret
+(implemented as HMAC, not applicable to bcrypt — bcrypt's salt is always random, not user-set) and
+an optional `rounds` config (min/max/default/hint) — digest algorithms use rounds to mean "chain the
+digest N times," bcrypt uses it as the real cost factor. Add a new algorithm by adding one entry
+here; nothing else needs to change.
+
 **Text diff engine** (`src/lib/diff.ts`) is line-based with a similarity fallback to word-level
 diffing, built on `diff` (jsdiff)'s `diffLines`/`diffWordsWithSpace`/`diffChars`:
 

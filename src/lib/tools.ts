@@ -14,5 +14,10 @@ export const tools: Tool[] = [
     slug: 'text-diff',
     title: 'Text Diff',
     description: 'Compare two blocks of text with line and word-level highlights.'
+  },
+  {
+    slug: 'hash-generator',
+    title: 'Hash Generator',
+    description: 'Generate MD5, SHA-1, SHA-256, and bcrypt hashes with optional secrets and rounds.'
   }
 ];
