@@ -2,7 +2,10 @@
   import './layout.css';
   import favicon from '$lib/assets/favicon.svg';
   import ThemeToggle from '$lib/components/ThemeToggle.svelte';
+  import Launcher from '$lib/components/Launcher.svelte';
+  import SearchIcon from '$lib/components/icons/SearchIcon.svelte';
   import { tools } from '$lib/tools';
+  import { launcher } from '$lib/launcher.svelte';
   import { page } from '$app/state';
 
   let { children } = $props();
@@ -73,6 +76,19 @@
           <path d="M4 6h16M4 12h16M4 18h16" />
         </svg>
       </button>
+      <button
+        type="button"
+        onclick={() => launcher.show()}
+        class="flex items-center gap-2 rounded-md border border-zinc-200 px-3 py-1.5 text-sm text-zinc-500 transition-colors hover:border-zinc-300 hover:text-zinc-700 dark:border-zinc-800 dark:text-zinc-400 dark:hover:border-zinc-700 dark:hover:text-zinc-200"
+      >
+        <SearchIcon size={14} />
+        <span>Search tools…</span>
+        <kbd
+          class="ml-2 rounded border border-zinc-300 bg-zinc-100 px-1.5 py-0.5 font-mono text-[10px] dark:border-zinc-700 dark:bg-zinc-800"
+        >
+          ⌘K
+        </kbd>
+      </button>
       <div class="flex-1"></div>
       <ThemeToggle />
     </header>
@@ -81,3 +97,5 @@
     </main>
   </div>
 </div>
+
+<Launcher />
